@@ -1,0 +1,31 @@
+version: "3.8"
+
+networks:
+  bridge_network:
+    driver: bridge
+
+services:
+  web:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    command: /bin/bash -c "uvicorn ja3-server.api:app --host 0.0.0.0 --port 8001 --workers 5 --log-level info"
+    volumes:
+      - ../:/workspace
+    networks:
+      - bridge_network
+    restart: always
+    tty: true
+    stdin_open: true
+
+  nginx:
+    image: wafninja/ja3-nginx
+    ports:
+      - "443:443"
+    networks:
+      - bridge_network
+    depends_on:
+      - web
+    volumes:
+      - ./nginx.conf:/usr/local/nginx/conf/nginx.conf
+    restart: always
