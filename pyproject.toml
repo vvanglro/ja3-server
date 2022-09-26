@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "ja3-server"
 version = "0.1.0"
-description = ""
+description = "ja3-server based on nginx-ssl-ja3 and fastapi"
 authors = ["vvanglro <>"]
 
 [tool.poetry.dependencies]
